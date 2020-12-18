@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">QuickWorkout</string>
+    <string name="main_screen_image">image_with_app_title</string>
+    <string name="start_exercise_ac_main">START</string>
+</resources>
