@@ -12,6 +12,7 @@
         >
 
         <ImageView
+            android:padding="15dp"
             android:layout_width="match_parent"
             android:layout_height="220dp"
             android:contentDescription="@string/main_screen_image"

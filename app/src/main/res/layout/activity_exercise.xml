@@ -23,7 +23,7 @@
         android:gravity="center"
         android:orientation="vertical"
         android:visibility="visible"
-        tools:visibility="visible">
+        tools:visibility="gone">
 
         <TextView
             android:layout_width="wrap_content"
@@ -73,6 +73,14 @@
 
 
         </FrameLayout>
+
+        <TextView
+            android:id="@+id/tv_rest_view_exercise_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorAccent"
+            android:textSize="22sp"
+            android:textStyle="bold"/>
     </LinearLayout>
 
     <!--START-->
@@ -84,8 +92,15 @@
         android:gravity="center"
         android:orientation="vertical"
         android:visibility="gone"
-        tools:visibility="gone">
+        tools:visibility="visible">
 
+        <ImageView
+            android:id="@+id/iv_exercise"
+            android:layout_width="match_parent"
+            android:layout_height="350dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="10dp"
+            android:src="@drawable/ic_jumping_jacks" />
         <TextView
             android:id="@+id/tvExerciseName"
             android:layout_width="wrap_content"
@@ -126,10 +141,10 @@
                     android:id="@+id/tvExerciseTimer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="30"
                     android:textColor="#FFFFFF"
                     android:textSize="25sp"
-                    android:textStyle="bold"
-                    android:text="30" />
+                    android:textStyle="bold" />
             </LinearLayout>
         </FrameLayout>
     </LinearLayout>
