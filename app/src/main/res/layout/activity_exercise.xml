@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     tools:context=".ExerciseActivity">
 
 
@@ -23,7 +22,7 @@
         android:gravity="center"
         android:orientation="vertical"
         android:visibility="visible"
-        tools:visibility="gone">
+        tools:visibility="visible">
 
         <TextView
             android:layout_width="wrap_content"
@@ -43,18 +42,18 @@
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_gravity="center"
-                android:gravity="center"
-                android:background="@drawable/item_circular_color_accent_background">
+                android:background="@drawable/item_circular_color_accent_background"
+                android:gravity="center">
 
 
                 <TextView
                     android:id="@+id/tvTimer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="10"
                     android:textColor="@color/white"
                     android:textSize="25sp"
-                    android:textStyle="bold"
-                    android:text="10" />
+                    android:textStyle="bold" />
             </LinearLayout>
 
             <ProgressBar
@@ -63,13 +62,13 @@
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_gravity="center"
+                android:background="@drawable/circular_progress_gray"
                 android:indeterminate="false"
                 android:max="10"
-                android:progress="10"
 
-                android:rotation="-90"
+                android:progress="10"
                 android:progressDrawable="@drawable/circular_progress_bar"
-                android:background="@drawable/circular_progress_gray"/>
+                android:rotation="-90" />
 
 
         </FrameLayout>
@@ -80,7 +79,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/colorAccent"
             android:textSize="22sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
     </LinearLayout>
 
     <!--START-->
@@ -92,7 +91,7 @@
         android:gravity="center"
         android:orientation="vertical"
         android:visibility="gone"
-        tools:visibility="visible">
+        tools:visibility="gone">
 
         <ImageView
             android:id="@+id/iv_exercise"
@@ -101,6 +100,7 @@
             android:layout_gravity="center"
             android:layout_marginBottom="10dp"
             android:src="@drawable/ic_jumping_jacks" />
+
         <TextView
             android:id="@+id/tvExerciseName"
             android:layout_width="wrap_content"
@@ -148,4 +148,16 @@
             </LinearLayout>
         </FrameLayout>
     </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_exercise_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="5dp"
+        android:orientation="horizontal" />
 </RelativeLayout>

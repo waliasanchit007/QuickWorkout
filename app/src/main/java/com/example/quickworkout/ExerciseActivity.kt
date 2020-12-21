@@ -7,16 +7,18 @@ import android.speech.tts.TextToSpeech
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.Adapter
 import android.widget.SimpleAdapter
 import android.widget.Toast
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.quickworkout.databinding.ActivityExerciseBinding
 import java.util.*
 import kotlin.collections.ArrayList
 
-class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener{
+class ExerciseActivity : AppCompatActivity(){
 
     var mCountDownTimer: CountDownTimer? = null
     var mTimerDuration : Long = 10000
@@ -25,6 +27,7 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener{
     private lateinit var binding: ActivityExerciseBinding
     private var mExerciseList : ArrayList<ExerciseModel>? = null
     private var presentExercisePosition = -1
+    private var adapter : ExerciseStatusRecyclerViewAdapter? = null
 
     private var tts : TextToSpeech? = null
 
@@ -34,12 +37,24 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener{
         binding = ActivityExerciseBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
-
-        tts = TextToSpeech(this, this)
-        mExerciseList = Constants.defaultExerciseList()
         setUpToolBar()
-        setupRestView()
+        mExerciseList = Constants.defaultExerciseList()
+        setUpRecyclerViewAdapter()
+        tts = TextToSpeech(this) {
+            if (it == TextToSpeech.SUCCESS) {
+                val result = tts!!.setLanguage(Locale.US)
+                if (result == TextToSpeech.LANG_MISSING_DATA || result ==
+                        TextToSpeech.LANG_NOT_SUPPORTED)
+                    Log.e("TTS", "the language provided is not supported")
+                else {
+                    Log.i("speak", "success")
+                    setupRestView()
+                }
 
+            } else {
+                Log.e("TTS", "Initialization failed")
+            }
+        }
 
     }
 
@@ -61,30 +76,34 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener{
             }
             override fun onFinish() {
                 presentExercisePosition++
+                mExerciseList!![presentExercisePosition].setIsSelected(true)
+                adapter!!.notifyDataSetChanged()
                 setupExerciseView()
             }
         }.start()
     }
 
     private fun setupRestView(){
-        binding.llExerciseView.visibility = View.GONE
-        binding.llRestView.visibility  = View.VISIBLE
+
         if(presentExercisePosition < mExerciseList!!.size - 1) {
-            binding.tvRestViewExerciseName.text =
-                mExerciseList!![presentExercisePosition + 1].getName()
+            binding.llExerciseView.visibility = View.GONE
+            binding.llRestView.visibility  = View.VISIBLE
+            binding.tvRestViewExerciseName.text = mExerciseList!![presentExercisePosition + 1].getName()
+            if(mCountDownTimer != null)
+            mCountDownTimer?.cancel()
+            mTimeElapsed = 0
+            mTimerDuration = 10000
             speakOut("Be ready for " + mExerciseList!![presentExercisePosition + 1].getName())
+            setupRestProgressBar()
         }
-        mCountDownTimer?.cancel()
-        mTimeElapsed = 0
-        mTimerDuration = 10000
-        setupRestProgressBar()
     }
 
     private fun setupExerciseView(){
         speakOut( mExerciseList!![presentExercisePosition].getName())
         binding.ivExercise.setImageResource(mExerciseList!![presentExercisePosition].getImage())
         binding.tvExerciseName.text = mExerciseList!![presentExercisePosition].getName()
-        mCountDownTimer?.cancel()
+        if(mCountDownTimer != null)
+            mCountDownTimer!!.cancel()
         mTimeElapsed = 0
         mTimerDuration = 30000
         binding.llRestView.visibility = View.GONE
@@ -103,26 +122,23 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener{
 
             }
             override fun onFinish() {
-                if(presentExercisePosition < mExerciseList!!.size - 1)
+                if(presentExercisePosition < mExerciseList!!.size - 1) {
+                    mExerciseList!![presentExercisePosition].setIsCompleted(true)
+                    mExerciseList!![presentExercisePosition].setIsSelected(false)
+                    adapter!!.notifyDataSetChanged()
                     setupRestView()
+                }else{
+                    Toast.makeText(this@ExerciseActivity, "congratulations!!", Toast.LENGTH_LONG).show()
+                }
             }
         }.start()
     }
 
-    override fun onInit(status: Int) {
-        if(status == TextToSpeech.SUCCESS){
-            val result = tts!!.setLanguage(Locale.ENGLISH)
-            if(result == TextToSpeech.LANG_MISSING_DATA || result ==
-                    TextToSpeech.LANG_NOT_SUPPORTED)
-                        Log.e("TTS", "the language provided is not supported")
-            else{
-                Log.e("TTS", "Initialization failed")
-            }
-        }
-    }
-
     private fun speakOut(text : CharSequence){
-        tts!!.speak(text, TextToSpeech.QUEUE_FLUSH, null, "")
+        if (tts!= null) {
+            tts!!.speak(text, TextToSpeech.QUEUE_ADD, null, "")
+            Log.i("speak", "$text")
+        }else Log.i("speak", "null")
     }
 
     override fun onDestroy() {
@@ -134,5 +150,12 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener{
         }
 
         super.onDestroy()
+    }
+
+    private fun setUpRecyclerViewAdapter(){
+        adapter = ExerciseStatusRecyclerViewAdapter(this,mExerciseList!!)
+        binding.rvExerciseNumber.adapter = adapter
+        binding.rvExerciseNumber.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+
     }
 }

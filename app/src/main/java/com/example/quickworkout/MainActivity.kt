@@ -20,10 +20,17 @@ class MainActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
+        //Setting start Button
         binding.btnStartExerciseActMain.setOnClickListener{
             val intent = Intent(this, ExerciseActivity::class.java)
             startActivity(intent)
+        }
 
+        //setting history button
+
+        binding.btnHistory.setOnClickListener {
+            val intent = Intent(this, HistoryActivity:: class.java)
+            startActivity(intent)
         }
     }
 

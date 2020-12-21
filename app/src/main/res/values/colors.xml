@@ -9,5 +9,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="ripple_effect_color_for_start_button">#55558855</color>
     <color name="colorAccent">#008F24</color>
-
+    <color name="gray">#999999</color>
 </resources>
