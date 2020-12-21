@@ -1,5 +1,6 @@
 package com.example.quickworkout
 
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -128,7 +129,7 @@ class ExerciseActivity : AppCompatActivity(){
                     adapter!!.notifyDataSetChanged()
                     setupRestView()
                 }else{
-                    Toast.makeText(this@ExerciseActivity, "congratulations!!", Toast.LENGTH_LONG).show()
+                    exercisesFinish()
                 }
             }
         }.start()
@@ -157,5 +158,10 @@ class ExerciseActivity : AppCompatActivity(){
         binding.rvExerciseNumber.adapter = adapter
         binding.rvExerciseNumber.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
 
+    }
+    private fun exercisesFinish(){
+        val intent = Intent(this@ExerciseActivity, FinishActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 }
