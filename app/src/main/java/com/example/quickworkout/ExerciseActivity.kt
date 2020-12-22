@@ -1,5 +1,6 @@
 package com.example.quickworkout
 
+import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
@@ -12,6 +13,7 @@ import android.widget.Adapter
 import android.widget.SimpleAdapter
 import android.widget.Toast
 import androidx.appcompat.app.ActionBar
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -163,5 +165,23 @@ class ExerciseActivity : AppCompatActivity(){
         val intent = Intent(this@ExerciseActivity, FinishActivity::class.java)
         startActivity(intent)
         finish()
+    }
+
+    override fun onBackPressed() {
+        val dialog = AlertDialog.Builder(this@ExerciseActivity)
+        dialog.setIcon(R.drawable.ic_warning)
+        dialog.setTitle("You want to Quit ?")
+        dialog.setMessage("If you click YES, all your progress will be lost")
+        dialog.setPositiveButton("Yes"){ dialogInterface: DialogInterface, i: Int ->
+            finish()
+        }
+        dialog.setNegativeButton("No"){ dialogInterface: DialogInterface, i: Int ->
+            Toast.makeText(this , "No is clicked", Toast.LENGTH_SHORT).show()
+        }
+        val alertDialog = dialog.create()
+        alertDialog.setCancelable(true)
+        alertDialog.show()
+
+
     }
 }

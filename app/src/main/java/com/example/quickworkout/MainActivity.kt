@@ -9,6 +9,7 @@ import android.widget.Button
 import com.example.quickworkout.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var binding : ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -16,7 +17,7 @@ class MainActivity : AppCompatActivity() {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main)
 
-        val binding = ActivityMainBinding.inflate(layoutInflater)
+        binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
 
@@ -31,6 +32,11 @@ class MainActivity : AppCompatActivity() {
         binding.btnHistory.setOnClickListener {
             val intent = Intent(this, HistoryActivity:: class.java)
             startActivity(intent)
+        }
+        binding.btnBmi.setOnClickListener {
+            val intent = Intent(this, BmiActivity::class.java)
+            startActivity(intent)
+
         }
     }
 
