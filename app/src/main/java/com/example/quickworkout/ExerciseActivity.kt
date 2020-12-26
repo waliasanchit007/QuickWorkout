@@ -95,7 +95,7 @@ class ExerciseActivity : AppCompatActivity(){
             if(mCountDownTimer != null)
             mCountDownTimer?.cancel()
             mTimeElapsed = 0
-            mTimerDuration = 10000
+            mTimerDuration = 1000
             speakOut("Be ready for " + mExerciseList!![presentExercisePosition + 1].getName())
             setupRestProgressBar()
         }
@@ -108,7 +108,7 @@ class ExerciseActivity : AppCompatActivity(){
         if(mCountDownTimer != null)
             mCountDownTimer!!.cancel()
         mTimeElapsed = 0
-        mTimerDuration = 30000
+        mTimerDuration = 3000
         binding.llRestView.visibility = View.GONE
         binding.llExerciseView.visibility = View.VISIBLE
         setupExerciseProgressBar()
@@ -162,13 +162,13 @@ class ExerciseActivity : AppCompatActivity(){
 
     }
     private fun exercisesFinish(){
-        val intent = Intent(this@ExerciseActivity, FinishActivity::class.java)
+        val intent = Intent(this@ExerciseActivity,FinishActivity::class.java)
         startActivity(intent)
         finish()
     }
 
     override fun onBackPressed() {
-        val dialog = AlertDialog.Builder(this@ExerciseActivity)
+        val dialog = android.app.AlertDialog.Builder(this@ExerciseActivity)
         dialog.setIcon(R.drawable.ic_warning)
         dialog.setTitle("You want to Quit ?")
         dialog.setMessage("If you click YES, all your progress will be lost")
