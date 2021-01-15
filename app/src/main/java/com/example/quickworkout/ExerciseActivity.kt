@@ -95,7 +95,7 @@ class ExerciseActivity : AppCompatActivity(){
             if(mCountDownTimer != null)
             mCountDownTimer?.cancel()
             mTimeElapsed = 0
-            mTimerDuration = 1000
+            mTimerDuration = 10000
             speakOut("Be ready for " + mExerciseList!![presentExercisePosition + 1].getName())
             setupRestProgressBar()
         }
@@ -108,7 +108,7 @@ class ExerciseActivity : AppCompatActivity(){
         if(mCountDownTimer != null)
             mCountDownTimer!!.cancel()
         mTimeElapsed = 0
-        mTimerDuration = 3000
+        mTimerDuration = 30000
         binding.llRestView.visibility = View.GONE
         binding.llExerciseView.visibility = View.VISIBLE
         setupExerciseProgressBar()
@@ -166,7 +166,6 @@ class ExerciseActivity : AppCompatActivity(){
         startActivity(intent)
         finish()
     }
-
     override fun onBackPressed() {
         val dialog = android.app.AlertDialog.Builder(this@ExerciseActivity)
         dialog.setIcon(R.drawable.ic_warning)
@@ -181,7 +180,5 @@ class ExerciseActivity : AppCompatActivity(){
         val alertDialog = dialog.create()
         alertDialog.setCancelable(true)
         alertDialog.show()
-
-
     }
 }
